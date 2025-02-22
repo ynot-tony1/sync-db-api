@@ -1,7 +1,7 @@
 import jwt
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from config.settings import JWT_SECRET
+from db_api.config.settings import JWT_SECRET
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
     """

@@ -1,0 +1,595 @@
+why is my unit tests failing? : output : (venv) tony@rando-comp:~/Projects/db_api$ python -m unittest discover -s tests/unit_tests -p "test_*.py" -v
+test_create_user_already_exists (test_db_api.TestDBAPI)
+Ensure POST /user returns a 400 error if the user already exists. ... ERROR
+test_create_user_success (test_db_api.TestDBAPI)
+Ensure POST /user successfully creates a new user. ... ERROR
+test_get_user_not_found (test_db_api.TestDBAPI)
+Ensure GET /user returns 404 if the user does not exist. ... ERROR
+test_get_user_success (test_db_api.TestDBAPI)
+Ensure GET /user returns user details if the user exists. ... ERROR
+
+======================================================================
+ERROR: test_create_user_already_exists (test_db_api.TestDBAPI)
+Ensure POST /user returns a 400 error if the user already exists.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: app_users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/tests/unit_tests/test_db_api.py", line 57, in setUp
+    db.query(AppUser).delete()
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3208, in delete
+    {"synchronize_session": synchronize_session}
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2371, in execute
+    _add_event=_add_event,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2257, in _execute_internal
+    conn,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/bulk_persistence.py", line 2022, in orm_execute_statement
+    session, statement, params, execution_options, bind_arguments, conn
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    statement, params or {}, execution_options=execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    execution_options or NO_OPTIONS,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 517, in _execute_on_connection
+    self, distilled_params, execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1648, in _execute_clauseelement
+    cache_hit=cache_hit,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    dialect, context, statement, parameters
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1984, in _exec_single_context
+    e, str_statement, effective_parameters, cursor, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: app_users
+[SQL: DELETE FROM app_users]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+======================================================================
+ERROR: test_create_user_success (test_db_api.TestDBAPI)
+Ensure POST /user successfully creates a new user.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: app_users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/tests/unit_tests/test_db_api.py", line 57, in setUp
+    db.query(AppUser).delete()
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3208, in delete
+    {"synchronize_session": synchronize_session}
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2371, in execute
+    _add_event=_add_event,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2257, in _execute_internal
+    conn,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/bulk_persistence.py", line 2022, in orm_execute_statement
+    session, statement, params, execution_options, bind_arguments, conn
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    statement, params or {}, execution_options=execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    execution_options or NO_OPTIONS,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 517, in _execute_on_connection
+    self, distilled_params, execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1648, in _execute_clauseelement
+    cache_hit=cache_hit,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    dialect, context, statement, parameters
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1984, in _exec_single_context
+    e, str_statement, effective_parameters, cursor, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: app_users
+[SQL: DELETE FROM app_users]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+======================================================================
+ERROR: test_get_user_not_found (test_db_api.TestDBAPI)
+Ensure GET /user returns 404 if the user does not exist.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: app_users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/tests/unit_tests/test_db_api.py", line 57, in setUp
+    db.query(AppUser).delete()
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3208, in delete
+    {"synchronize_session": synchronize_session}
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2371, in execute
+    _add_event=_add_event,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2257, in _execute_internal
+    conn,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/bulk_persistence.py", line 2022, in orm_execute_statement
+    session, statement, params, execution_options, bind_arguments, conn
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    statement, params or {}, execution_options=execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    execution_options or NO_OPTIONS,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 517, in _execute_on_connection
+    self, distilled_params, execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1648, in _execute_clauseelement
+    cache_hit=cache_hit,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    dialect, context, statement, parameters
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1984, in _exec_single_context
+    e, str_statement, effective_parameters, cursor, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: app_users
+[SQL: DELETE FROM app_users]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+======================================================================
+ERROR: test_get_user_success (test_db_api.TestDBAPI)
+Ensure GET /user returns user details if the user exists.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: app_users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tony/Projects/db_api/tests/unit_tests/test_db_api.py", line 57, in setUp
+    db.query(AppUser).delete()
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 3208, in delete
+    {"synchronize_session": synchronize_session}
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2371, in execute
+    _add_event=_add_event,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2257, in _execute_internal
+    conn,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/bulk_persistence.py", line 2022, in orm_execute_statement
+    session, statement, params, execution_options, bind_arguments, conn
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    statement, params or {}, execution_options=execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    execution_options or NO_OPTIONS,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 517, in _execute_on_connection
+    self, distilled_params, execution_options
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1648, in _execute_clauseelement
+    cache_hit=cache_hit,
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1844, in _execute_context
+    dialect, context, statement, parameters
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1984, in _exec_single_context
+    e, str_statement, effective_parameters, cursor, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1965, in _exec_single_context
+    cursor, str_statement, effective_parameters, context
+  File "/home/tony/Projects/db_api/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: app_users
+[SQL: DELETE FROM app_users]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.009s
+
+FAILED (errors=4)
+(venv) tony@rando-comp:~/Projects/db_api$  and here is unit tests:"""
+Unit Test Suite for the DB API Endpoints
+
+This module tests the endpoints defined in db_api. It uses an in-memory SQLite database
+to isolate tests and overrides the dependencies for the database session and
+current user. The tests validate user creation, retrieval, and error handling.
+"""
+
+import unittest
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from db_api.db.base import Base
+from db_api.db.database import get_db
+from db_api.models.user import AppUser
+from db_api.utils.jwt_utils import get_current_user
+from db_api.main import app
+
+# In-memory SQLite database for testing
+SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+class TestDBAPI(unittest.TestCase):
+    """
+    Unit tests for the DB API endpoints.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up the test database and override dependencies."""
+        cls.client = TestClient(app)
+
+        def override_get_db():
+            """Dependency override to use the test database session."""
+            db = TestingSessionLocal()
+            # Ensure tables are created in this session
+            Base.metadata.create_all(bind=db.get_bind())  # 🔹 Fix: Explicitly create tables
+            try:
+                yield db
+            finally:
+                db.close()
+
+        def override_get_current_user():
+            """Dependency override for authentication."""
+            return {"sub": "test-sub", "email": "test@example.com"}
+
+        # Apply dependency overrides
+        app.dependency_overrides[get_db] = override_get_db
+        app.dependency_overrides[get_current_user] = override_get_current_user
+
+    def setUp(self):
+        """Ensure a clean state before each test."""
+        db = TestingSessionLocal()
+        db.query(AppUser).delete()
+        db.commit()
+        db.close()
+
+    def test_get_user_not_found(self):
+        """Ensure GET /user returns 404 if the user does not exist."""
+        response = self.client.get("/user")
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json()["detail"], "Couldn't find that user")
+
+    def test_create_user_success(self):
+        """Ensure POST /user successfully creates a new user."""
+        response = self.client.post("/user")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["sub"], "test-sub")
+        self.assertEqual(data["email"], "test@example.com")
+
+    def test_create_user_already_exists(self):
+        """Ensure POST /user returns a 400 error if the user already exists."""
+        response1 = self.client.post("/user")
+        self.assertEqual(response1.status_code, 200)
+
+        response2 = self.client.post("/user")
+        self.assertEqual(response2.status_code, 400)
+        self.assertEqual(response2.json()["detail"], "That user already exists")
+
+    def test_get_user_success(self):
+        """Ensure GET /user returns user details if the user exists."""
+        self.client.post("/user")  # Create the user
+        response = self.client.get("/user")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["sub"], "test-sub")
+        self.assertEqual(data["email"], "test@example.com")
+
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up resources after all tests have run."""
+        Base.metadata.drop_all(bind=engine)  # Remove tables after tests
+
+
+if __name__ == "__main__":
+    unittest.main()
+ and here is codebase :
+  # DB API: Directory Structure (Depth 3)
+db_api
+├── config
+│   ├── __pycache__
+│   │   └── settings.cpython-37.pyc
+│   └── settings.py
+├── db
+│   ├── base.py
+│   ├── database.py
+│   ├── __init__.py
+│   └── __pycache__
+│       ├── base.cpython-37.pyc
+│       ├── database.cpython-37.pyc
+│       └── __init__.cpython-37.pyc
+├── __init__.py
+├── main.py
+├── models
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-37.pyc
+│   │   └── user.cpython-37.pyc
+│   └── user.py
+├── __pycache__
+│   ├── __init__.cpython-37.pyc
+│   └── main.cpython-37.pyc
+├── routes
+│   ├── auth.py
+│   ├── __init__.py
+│   └── __pycache__
+│       ├── auth.cpython-37.pyc
+│       ├── __init__.cpython-37.pyc
+│       └── profile.cpython-37.pyc
+└── utils
+    ├── __init__.py
+    ├── jwt_utils.py
+    └── __pycache__
+        ├── __init__.cpython-37.pyc
+        └── jwt_utils.cpython-37.pyc
+
+11 directories, 25 files
+
+# Environment Variables
+export APP_DATABASE_URL="postgresql://app_admin:apppassword@localhost/app_db"
+export JWT_SECRET="supersecretkey"
+export ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# DB API Requirements
+
+annotated-types==0.5.0
+anyio==3.7.1
+bcrypt==4.2.1
+certifi==2025.1.31
+click==8.1.8
+dnspython==2.3.0
+email-validator==2.0.0.post2
+exceptiongroup==1.2.2
+fastapi==0.103.2
+greenlet==3.1.1
+h11==0.14.0
+httpcore==0.17.3
+httptools==0.6.0
+httpx==0.24.1
+idna==3.10
+importlib-metadata==6.7.0
+itsdangerous==2.1.2
+Jinja2==3.1.5
+MarkupSafe==2.1.5
+orjson==3.9.7
+psycopg2-binary==2.9.9
+pydantic==2.5.3
+pydantic-extra-types==2.3.0
+pydantic-settings==2.0.3
+pydantic_core==2.14.6
+PyJWT==2.8.0
+python-dotenv==0.21.1
+python-multipart==0.0.8
+PyYAML==6.0.1
+sniffio==1.3.1
+SQLAlchemy==2.0.38
+starlette==0.27.0
+typing_extensions==4.7.1
+ujson==5.7.0
+uvicorn==0.22.0
+uvloop==0.18.0
+watchfiles==0.20.0
+websockets==11.0.3
+zipp==3.15.0
+
+
+# FastAPI Main App
+"""
+Main application module for the DB API.
+
+This module creates and configures the FastAPI application instance. It sets up CORS middleware to allow
+cross-origin requests, includes the routes from the auth router and sets up the database schema by creating
+any missing tables defined in the ORM's Base metadata.
+
+To use:
+    TO run it, use something like:
+        uvicorn main:app --reload --port (port number)
+
+Attributes:
+    app (FastAPI): The FastAPI application instance with middleware and routes configured.
+"""
+
+from db_api.db.database import engine, Base
+from db_api.routes import auth  
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(auth.router)
+Base.metadata.create_all(bind=engine)
+
+# Logging Configuration
+
+# Settings Configuration
+import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
+APP_DATABASE_URL = os.environ.get("APP_DATABASE_URL")
+JWT_SECRET = os.environ.get("JWT_SECRET")
+ACCESS_TOKEN_EXPIRE_MINUTES = os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES")
+
+# Database Setup
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from db_api.config.settings import APP_DATABASE_URL
+from db_api.db.base import Base
+
+engine = create_engine(APP_DATABASE_URL)
+
+# sessionmaker returns a factory for new session objects
+# binds the engine to every session so each one knows how to connect to the db
+# the settings  make sure db changes arent commited automatically, so transactions can be managed with rollbacks
+LocalSession = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+
+
+def get_db():
+    """
+    Creates a new database session for a request. Using yield turns the function into a generator, 
+    allowing it to be used as a dependency by fast api. Once the request is done, the session is then closed.
+    """
+    db = LocalSession()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Model: User
+"""
+This module outlines the AppUser model for the app database.
+
+The AppUser model uses SQLAlchemy’s declarative Base to represent a record in the
+'app_user' table. It includes a pk 'user_id', a unique sub identifier, and a unique email address.
+
+Classes:
+    AppUser: Represents a user record in the "app_users" table with columns for user_id, sub, and email.
+"""
+
+from sqlalchemy import Column, Integer, String
+from db_api.db.database import Base
+
+class AppUser(Base):
+    __tablename__ = "app_users"
+    user_id = Column(Integer, primary_key=True, index=True)
+    sub = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+
+# Route: auth
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from db_api.db.database import get_db
+from db_api.models.user import AppUser
+from db_api.utils.jwt_utils import get_current_user  
+
+router = APIRouter()
+
+@router.get("/user")
+def get_user(current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    """
+    Getting the authenticated user's details from the database.
+
+    This first verifies the users identity using the JWT in the Authorization header.
+    It then queries the database for a user record whose `sub' matches the `sub` extracted from the token.
+
+    Args:
+        current_user (dict): A dictionary containing the authenticated user's data 
+        extracted from the JWT.
+        db (Session): The database session from the dependency injection.
+
+    Returns:
+        dict: A JSON response containing the user's `sub` and `email`.
+
+    Raises:
+        HTTPException 404 (not found): If no user is found in the database with that `sub`,  it raises a HTTP status code 404.
+
+    Example:
+        GET /user
+        Authorization: Bearer <valid JWT token>
+
+        JSON response:
+        {
+            "sub": "123e4567-e89b-12d3-a456-426614174000",
+            "email": "tony@oh-synkies.com"
+        }
+    """
+    user = db.query(AppUser).filter(AppUser.sub == current_user["sub"]).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Couldn't find that user")
+    return {"sub": user.sub, "email": user.email}
+
+
+@router.post("/user")
+def create_user(current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    """
+    Create a new user in the App DB.
+
+    When a new user registers and is authenticated by the Auth Service, this creates an entry for them
+    in the App DB. It checks whether a user with the given `sub` already exists. 
+    If so, it raises a  HTTP 400 error, 'bad request'. Otherwise, it creates a new user record,
+    commits the transaction and returns the new user's details.
+
+    Args:
+        current_user (dict): A dictionary containing the authenticated user's data 
+        extracted from the JWT.
+        db (Session): The database session provided by dependency injection.
+
+    Returns:
+        dict: A JSON response containing the newly created user's `sub` and `email`.
+
+    Raises:
+        HTTPException 400 (bad request): If a user with the provided `sub` already exists, raises a HTTP status code 400.
+
+    Example:
+        POST /user
+        Authorization: Bearer <valid JWT token>
+
+        JSON response:
+        {
+            "sub": "123e4567-e89b-12d3-a456-426614174000",
+            "email": "tony@syncnny-cricket.com"
+        }
+    """
+    if db.query(AppUser).filter(AppUser.sub == current_user["sub"]).first():
+        raise HTTPException(status_code=400, detail="That user already exists")
+    
+    new_user = AppUser(sub=current_user["sub"], email=current_user["email"])
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"sub": new_user.sub, "email": new_user.email}
+
+# JWT Utilities
+import jwt
+from fastapi import HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from db_api.config.settings import JWT_SECRET
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
+    """
+    Extracts and validates the current user's identity from a JWT token.
+
+    This function gets the JWT token from the Authorization header using the HTTPBearer dependency. 
+    It then decodes the token using the JWT_SECRET and the HS256 algorithm. 
+    Finally, it checks that the token payload contains both 'sub' and 'email'. 
+    If either field is missing, a HTTPException with a 401 status code is raised, 'unauthorized.'
+
+    Args:
+        credentials (HTTPAuthorizationCredentials): The HTTP credentials extracted 
+        from the request's Authorization header in which there should be a bearer token.
+
+    Returns:
+        dict: A dictionary containing the 'sub' and 'email' from the decoded JWT payload.
+              example json:
+              {
+                  "sub": "958e4567-e89b-12d3-a456-426668394000",
+                  "email": "tony@sync-182.com"
+              }
+
+    Raises:
+        HTTPException 401 (bad request): Is raised if the token payload does not include 'sub' or 'email'
+    """
+    payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=["HS256"])
+    if "sub" not in payload or "email" not in payload:
+        raise HTTPException(status_code=401, detail="Invalid token payload")
+    return {"sub": payload["sub"], "email": payload["email"]}
