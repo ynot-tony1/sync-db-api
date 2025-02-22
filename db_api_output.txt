@@ -1,0 +1,346 @@
+ codebase :
+  # DB API: Directory Structure (Depth 3)
+venv) tony@rando-comp:~/Projects/db_api$ tree -L 4
+db_api
+│
+│
+├── db_api
+│   ├── config
+│   │   ├── __pycache__
+│   │   │   └── settings.cpython-37.pyc
+│   │   └── settings.py
+│   ├── db
+│   │   ├── base.py
+│   │   ├── database.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── base.cpython-37.pyc
+│   │       ├── database.cpython-37.pyc
+│   │       └── __init__.cpython-37.pyc
+│   ├── __init__.py
+│   ├── main.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-37.pyc
+│   │   │   └── user.cpython-37.pyc
+│   │   └── user.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-37.pyc
+│   │   └── main.cpython-37.pyc
+│   ├── routes
+│   │   ├── auth.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── auth.cpython-37.pyc
+│   │       ├── __init__.cpython-37.pyc
+│   │       └── profile.cpython-37.pyc
+│   └── utils
+│       ├── __init__.py
+│       ├── jwt_utils.py
+│       └── __pycache__
+│           ├── __init__.cpython-37.pyc
+│           └── jwt_utils.cpython-37.pyc
+├── db_api_output.txt
+├── __pycache__
+│   └── main.cpython-37.pyc
+├── requirements.txt
+├── tests
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-37.pyc
+│   │   └── test_db_api.cpython-37.pyc
+│   └── unit_tests
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-37.pyc
+│       │   ├── test_db_api.cpython-37.pyc
+│       │   └── test_jwt_utils.cpython-37.pyc
+│       └── test_jwt_utils.py
+└── venv
+    ├── bin
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── dotenv
+    │   ├── easy_install
+    │   ├── easy_install-3.7
+    │   ├── email_validator
+    │   ├── httpx
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.7
+    │   ├── python -> python3.7
+    │   ├── python3 -> python3.7
+    │   ├── python3.7 -> /usr/bin/python3.7
+    │   ├── uvicorn
+    │   └── watchfiles
+    ├── include
+    │   └── site
+    │       └── python3.7
+    ├── lib
+    │   └── python3.7
+    │       └── site-packages
+    ├── lib64 -> lib
+    └── pyvenv.cfg
+
+26 directories, 53 files
+(venv) tony@rando-comp:~/Projects/db_api$ 
+
+11 directories, 25 files
+
+# Environment Variables
+export APP_DATABASE_URL="postgresql://app_admin:apppassword@localhost/app_db"
+export JWT_SECRET="supersecretkey"
+export ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# DB API Requirements
+
+annotated-types==0.5.0
+anyio==3.7.1
+bcrypt==4.2.1
+certifi==2025.1.31
+click==8.1.8
+dnspython==2.3.0
+email-validator==2.0.0.post2
+exceptiongroup==1.2.2
+fastapi==0.103.2
+greenlet==3.1.1
+h11==0.14.0
+httpcore==0.17.3
+httptools==0.6.0
+httpx==0.24.1
+idna==3.10
+importlib-metadata==6.7.0
+itsdangerous==2.1.2
+Jinja2==3.1.5
+MarkupSafe==2.1.5
+orjson==3.9.7
+psycopg2-binary==2.9.9
+pydantic==2.5.3
+pydantic-extra-types==2.3.0
+pydantic-settings==2.0.3
+pydantic_core==2.14.6
+PyJWT==2.8.0
+python-dotenv==0.21.1
+python-multipart==0.0.8
+PyYAML==6.0.1
+sniffio==1.3.1
+SQLAlchemy==2.0.38
+starlette==0.27.0
+typing_extensions==4.7.1
+ujson==5.7.0
+uvicorn==0.22.0
+uvloop==0.18.0
+watchfiles==0.20.0
+websockets==11.0.3
+zipp==3.15.0
+
+
+# FastAPI Main App
+"""
+Main application module for the DB API.
+
+This module creates and configures the FastAPI application instance. It sets up CORS middleware to allow
+cross-origin requests, includes the routes from the auth router and sets up the database schema by creating
+any missing tables defined in the ORM's Base metadata.
+
+To use:
+    TO run it, use something like:
+        uvicorn main:app --reload --port (port number)
+
+Attributes:
+    app (FastAPI): The FastAPI application instance with middleware and routes configured.
+"""
+
+from db_api.db.database import engine, Base
+from db_api.routes import auth  
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(auth.router)
+Base.metadata.create_all(bind=engine)
+
+# Logging Configuration
+
+# Settings Configuration
+import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
+APP_DATABASE_URL = os.environ.get("APP_DATABASE_URL")
+JWT_SECRET = os.environ.get("JWT_SECRET")
+ACCESS_TOKEN_EXPIRE_MINUTES = os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES")
+
+# Database Setup
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from db_api.config.settings import APP_DATABASE_URL
+from db_api.db.base import Base
+
+engine = create_engine(APP_DATABASE_URL)
+
+# sessionmaker returns a factory for new session objects
+# binds the engine to every session so each one knows how to connect to the db
+# the settings  make sure db changes arent commited automatically, so transactions can be managed with rollbacks
+LocalSession = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+
+
+def get_db():
+    """
+    Creates a new database session for a request. Using yield turns the function into a generator, 
+    allowing it to be used as a dependency by fast api. Once the request is done, the session is then closed.
+    """
+    db = LocalSession()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Model: User
+"""
+This module outlines the AppUser model for the app database.
+
+The AppUser model uses SQLAlchemy’s declarative Base to represent a record in the
+'app_user' table. It includes a pk 'user_id', a unique sub identifier, and a unique email address.
+
+Classes:
+    AppUser: Represents a user record in the "app_users" table with columns for user_id, sub, and email.
+"""
+
+from sqlalchemy import Column, Integer, String
+from db_api.db.database import Base
+
+class AppUser(Base):
+    __tablename__ = "app_users"
+    user_id = Column(Integer, primary_key=True, index=True)
+    sub = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+
+# Route: auth
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from db_api.db.database import get_db
+from db_api.models.user import AppUser
+from db_api.utils.jwt_utils import get_current_user  
+
+router = APIRouter()
+
+@router.get("/user")
+def get_user(current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    """
+    Getting the authenticated user's details from the database.
+
+    This first verifies the users identity using the JWT in the Authorization header.
+    It then queries the database for a user record whose `sub' matches the `sub` extracted from the token.
+
+    Args:
+        current_user (dict): A dictionary containing the authenticated user's data 
+        extracted from the JWT.
+        db (Session): The database session from the dependency injection.
+
+    Returns:
+        dict: A JSON response containing the user's `sub` and `email`.
+
+    Raises:
+        HTTPException 404 (not found): If no user is found in the database with that `sub`,  it raises a HTTP status code 404.
+
+    Example:
+        GET /user
+        Authorization: Bearer <valid JWT token>
+
+        JSON response:
+        {
+            "sub": "123e4567-e89b-12d3-a456-426614174000",
+            "email": "tony@oh-synkies.com"
+        }
+    """
+    user = db.query(AppUser).filter(AppUser.sub == current_user["sub"]).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Couldn't find that user")
+    return {"sub": user.sub, "email": user.email}
+
+
+@router.post("/user")
+def create_user(current_user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    """
+    Create a new user in the App DB.
+
+    When a new user registers and is authenticated by the Auth Service, this creates an entry for them
+    in the App DB. It checks whether a user with the given `sub` already exists. 
+    If so, it raises a  HTTP 400 error, 'bad request'. Otherwise, it creates a new user record,
+    commits the transaction and returns the new user's details.
+
+    Args:
+        current_user (dict): A dictionary containing the authenticated user's data 
+        extracted from the JWT.
+        db (Session): The database session provided by dependency injection.
+
+    Returns:
+        dict: A JSON response containing the newly created user's `sub` and `email`.
+
+    Raises:
+        HTTPException 400 (bad request): If a user with the provided `sub` already exists, raises a HTTP status code 400.
+
+    Example:
+        POST /user
+        Authorization: Bearer <valid JWT token>
+
+        JSON response:
+        {
+            "sub": "123e4567-e89b-12d3-a456-426614174000",
+            "email": "tony@syncnny-cricket.com"
+        }
+    """
+    if db.query(AppUser).filter(AppUser.sub == current_user["sub"]).first():
+        raise HTTPException(status_code=400, detail="That user already exists")
+    
+    new_user = AppUser(sub=current_user["sub"], email=current_user["email"])
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"sub": new_user.sub, "email": new_user.email}
+
+# JWT Utilities
+import jwt
+from fastapi import HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from db_api.config.settings import JWT_SECRET
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
+    """
+    Extracts and validates the current user's identity from a JWT token.
+
+    This function gets the JWT token from the Authorization header using the HTTPBearer dependency. 
+    It then decodes the token using the JWT_SECRET and the HS256 algorithm. 
+    Finally, it checks that the token payload contains both 'sub' and 'email'. 
+    If either field is missing, a HTTPException with a 401 status code is raised, 'unauthorized.'
+
+    Args:
+        credentials (HTTPAuthorizationCredentials): The HTTP credentials extracted 
+        from the request's Authorization header in which there should be a bearer token.
+
+    Returns:
+        dict: A dictionary containing the 'sub' and 'email' from the decoded JWT payload.
+              example json:
+              {
+                  "sub": "958e4567-e89b-12d3-a456-426668394000",
+                  "email": "tony@sync-182.com"
+              }
+
+    Raises:
+        HTTPException 401 (bad request): Is raised if the token payload does not include 'sub' or 'email'
+    """
+    payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=["HS256"])
+    if "sub" not in payload or "email" not in payload:
+        raise HTTPException(status_code=401, detail="Invalid token payload")
+    return {"sub": payload["sub"], "email": payload["email"]}

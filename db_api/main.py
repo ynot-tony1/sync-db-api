@@ -13,8 +13,8 @@ Attributes:
     app (FastAPI): The FastAPI application instance with middleware and routes configured.
 """
 
-from db.database import engine, Base
-from routes import auth  
+from db_api.db.database import engine, Base
+from db_api.routes import auth  
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

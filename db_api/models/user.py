@@ -9,7 +9,7 @@ Classes:
 """
 
 from sqlalchemy import Column, Integer, String
-from db.database import Base
+from db_api.db.database import Base
 
 class AppUser(Base):
     __tablename__ = "app_users"
