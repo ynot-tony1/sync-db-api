@@ -1,33 +1,38 @@
+"""
+JWT Utilities module.
+
+This module provides helper functions for encoding and decoding JSON Web Tokens (JWT)
+used in the authentication process.
+"""
+
 import jwt
+from typing import Dict, Any
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from db_api.config.settings import JWT_SECRET
+from db_api.config.settings import settings
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
-    """
-    Extracts and validates the current user's identity from a JWT token.
+def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())
+) -> Dict[str, str]:
+    """Extract and validate the current user's identity from a JWT token.
 
-    This function gets the JWT token from the Authorization header using the HTTPBearer dependency. 
-    It then decodes the token using the JWT_SECRET and the HS256 algorithm. 
-    Finally, it checks that the token payload contains both 'sub' and 'email'. 
-    If either field is missing, a HTTPException with a 401 status code is raised, 'unauthorized.'
+    The JWT is decoded using the secret key defined in settings and the HS256 algorithm.
+    The function then checks that the token payload contains both 'sub' and 'email'.
 
     Args:
-        credentials (HTTPAuthorizationCredentials): The HTTP credentials extracted 
-        from the request's Authorization header in which there should be a bearer token.
+        credentials (HTTPAuthorizationCredentials): The HTTP credentials containing the JWT token.
 
     Returns:
-        dict: A dictionary containing the 'sub' and 'email' from the decoded JWT payload.
-              example json:
-              {
-                  "sub": "958e4567-e89b-12d3-a456-426668394000",
-                  "email": "tony@sync-182.com"
-              }
+        Dict[str, str]: A dictionary with the user's 'sub' and 'email'.
 
     Raises:
-        HTTPException 401 (bad request): Is raised if the token payload does not include 'sub' or 'email'
+        HTTPException: If the token payload is invalid or missing required fields.
     """
-    payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=["HS256"])
+    payload: Dict[str, Any] = jwt.decode(
+        credentials.credentials,
+        settings.jwt_secret,
+        algorithms=["HS256"]
+    )
     if "sub" not in payload or "email" not in payload:
         raise HTTPException(status_code=401, detail="Invalid token payload")
     return {"sub": payload["sub"], "email": payload["email"]}

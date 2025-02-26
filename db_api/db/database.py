@@ -1,22 +1,29 @@
+"""
+Database module for establishing the connection and session management.
+
+This module creates the SQLAlchemy engine and session factory, and
+provides a dependency function for obtaining a new database session.
+"""
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from db_api.config.settings import APP_DATABASE_URL
+from sqlalchemy.orm import sessionmaker, Session
+from typing import Generator
+from db_api.config.settings import settings
 from db_api.db.base import Base
 
-engine = create_engine(APP_DATABASE_URL)
+# Create the SQLAlchemy engine using the application database URL.
+engine = create_engine(settings.app_database_url)
 
-# sessionmaker returns a factory for new session objects
-# binds the engine to every session so each one knows how to connect to the db
-# the settings  make sure db changes arent commited automatically, so transactions can be managed with rollbacks
-LocalSession = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+# SessionLocal is a factory that creates new SQLAlchemy Session objects.
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+def get_db() -> Generator[Session, None, None]:
+    """Create a new database session for a request.
 
-def get_db():
+    Yields:
+        Session: A new SQLAlchemy session instance.
     """
-    Creates a new database session for a request. Using yield turns the function into a generator, 
-    allowing it to be used as a dependency by fast api. Once the request is done, the session is then closed.
-    """
-    db = LocalSession()
+    db: Session = SessionLocal()
     try:
         yield db
     finally:
