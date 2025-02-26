@@ -1,4 +1,10 @@
+"""
+Base module for SQLAlchemy models.
+
+This module defines the Base class, which is used as the
+declarative base for all SQLAlchemy models in the application.
+"""
+
 from sqlalchemy.ext.declarative import declarative_base
 
-# base collects metadata about models and tables an enables using python syntax to map python classes to database tables
 Base = declarative_base()
