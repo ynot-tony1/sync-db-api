@@ -8,7 +8,7 @@ provides a dependency function for obtaining a new database session.
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from typing import Generator
-from db_api.config.settings import APP_DATABASE_URL
+from db_api.config.type_settings import APP_DATABASE_URL
 from db_api.db.base import Base
 
 # Create the SQLAlchemy engine using the application database URL.
