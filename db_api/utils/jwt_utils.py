@@ -9,7 +9,7 @@ import jwt
 from typing import Dict, Any
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from db_api.config.settings import settings
+from db_api.config.settings import JWT_SECRET
 
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())
@@ -30,7 +30,7 @@ def get_current_user(
     """
     payload: Dict[str, Any] = jwt.decode(
         credentials.credentials,
-        settings.jwt_secret,
+        JWT_SECRET,
         algorithms=["HS256"]
     )
     if "sub" not in payload or "email" not in payload:

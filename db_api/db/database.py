@@ -8,11 +8,11 @@ provides a dependency function for obtaining a new database session.
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from typing import Generator
-from db_api.config.settings import settings
+from db_api.config.settings import APP_DATABASE_URL
 from db_api.db.base import Base
 
 # Create the SQLAlchemy engine using the application database URL.
-engine = create_engine(settings.app_database_url)
+engine = create_engine(APP_DATABASE_URL)
 
 # SessionLocal is a factory that creates new SQLAlchemy Session objects.
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
