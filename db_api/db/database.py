@@ -11,10 +11,7 @@ from typing import Generator
 from db_api.config.type_settings import APP_DATABASE_URL
 from db_api.db.base import Base
 
-# Create the SQLAlchemy engine using the application database URL.
 engine = create_engine(APP_DATABASE_URL)
-
-# SessionLocal is a factory that creates new SQLAlchemy Session objects.
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db() -> Generator[Session, None, None]:
