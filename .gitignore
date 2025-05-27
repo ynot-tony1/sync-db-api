@@ -28,3 +28,6 @@ logs/
 # fastapi and uvicorn temp files
 instance/
 *.pid
+
+# Dockerfile
+Dockerfile

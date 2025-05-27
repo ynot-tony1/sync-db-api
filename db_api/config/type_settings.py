@@ -5,10 +5,6 @@ This module imports raw environment variables from settings.py and then
 defines a Pydantic settings class that validates these values. This provides
 an extra layer of type safety for critical configuration values.
 
-Attributes:
-    AUTH_DATABASE_URL (str): The URL for connecting to the authentication database.
-    JWT_SECRET (str): The secret key used for encoding/decoding JWT tokens.
-    TOKEN_EXPIRE_MINS (int): The number of minutes before a token expires.
 """
 
 from pydantic_settings import BaseSettings

@@ -14,7 +14,7 @@ Attributes:
 """
 
 from db_api.db.database import engine, Base
-from db_api.routes import auth  
+from db_api.routes import auth
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,4 +27,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth.router)
-Base.metadata.create_all(bind=engine)
+
+@app.on_event("startup")
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+

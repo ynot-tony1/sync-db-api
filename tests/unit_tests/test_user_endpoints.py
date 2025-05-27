@@ -96,7 +96,7 @@ class TestDBAPI(unittest.TestCase):
         """
         self.set_query_first_value(None)
         response = client.post("/user")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
         data = response.json()
         self.assertEqual(data["sub"], "test-sub")
         self.assertEqual(data["email"], "sosynced@intime.com")
@@ -104,18 +104,20 @@ class TestDBAPI(unittest.TestCase):
         self.dummy_db.commit.assert_called()
         self.dummy_db.refresh.assert_called()
 
+
+
     def test_create_user_already_exists(self):
         """Test that POST /user returns a 400 error when the user already exists.
-
         Simulates a scenario where the dummy database session returns an existing user for the query.
         Sends a POST request to the /user endpoint and verifies that:
           - The response status code is 400.
           - The returned error message indicates that the user already exists.
-
         Returns:
             None
         """
-        self.set_query_first_value(object())
+        from sqlalchemy.exc import IntegrityError
+        self.dummy_db.commit.side_effect = IntegrityError("duplicate key","",None)
+ 
         response = client.post("/user")
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()["detail"], "That user already exists")

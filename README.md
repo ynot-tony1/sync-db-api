@@ -10,7 +10,7 @@ The DB API is a FastAPI-based API for managing application user data. It leverag
 - **CORS Support:** Configured middleware to support cross-origin requests.
 
 ## Directory Structure
-
+'''
 db_api
 ├── config
 │   ├── __init__.py
@@ -30,7 +30,7 @@ db_api
 └── utils
     ├── jwt_utils.py
     └── __init__.py
-
+'''
 > Note: Compiled files and __pycache__ directories are omitted for clarity.
 
 ## Environment Variables
@@ -55,7 +55,7 @@ Ensure that the PYTHONPATH is set to include the project root so that the module
   ```bash
   export PYTHONPATH=$(pwd)
 
-    On Windows (Command Prompt):
+- **On Windows (Command Prompt):**
 
     set PYTHONPATH=%cd%
 
